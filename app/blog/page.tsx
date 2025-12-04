@@ -4,15 +4,15 @@ import { AuthModal, useAuth } from '@/components/AuthModal'
 import { ConfirmModal } from '@/components/ConfirmModal'
 import { db } from '@/lib/firebase'
 import {
-    addDoc,
-    collection,
-    deleteDoc,
-    doc,
-    onSnapshot,
-    orderBy,
-    query,
-    serverTimestamp,
-    updateDoc
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+  updateDoc
 } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 
@@ -56,7 +56,7 @@ const Blog = () => {
   const { user } = useAuth()
 
   useEffect(() => {
-    // Real-time listener for posts
+    
     const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'))
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const postsData = snapshot.docs.map(doc => ({
@@ -407,7 +407,7 @@ const Blog = () => {
           onSuccess={() => {
             setShowAuthModal(false)
             if (authAction === 'comment' && pendingCommentPostId) {
-              // Comment form is already ready, user can type and submit
+              
             }
             setAuthAction(null)
             setPendingCommentPostId(null)
