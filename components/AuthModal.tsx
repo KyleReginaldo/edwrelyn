@@ -2,11 +2,11 @@
 
 import { auth } from '@/lib/firebase'
 import {
-    createUserWithEmailAndPassword,
-    onAuthStateChanged,
-    signInWithEmailAndPassword,
-    signOut,
-    User
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  User
 } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 
@@ -132,6 +132,7 @@ export const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full border border-neutral-300 px-3 py-2 focus:outline-none focus:border-black"
               required
+              placeholder='Enter your email'
             />
           </div>
 
@@ -143,6 +144,7 @@ export const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
               onChange={(e) => setPassword(e.target.value)}
               className="w-full border border-neutral-300 px-3 py-2 focus:outline-none focus:border-black"
               required
+              placeholder='Enter your password'
               minLength={6}
             />
           </div>
