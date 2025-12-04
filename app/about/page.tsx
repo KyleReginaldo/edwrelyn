@@ -1,3 +1,4 @@
+
 const About = () => {
   const workExperiences = [
     {
@@ -71,6 +72,7 @@ const About = () => {
     <div className="max-w-4xl mx-auto px-6 py-16">
       <h1 className="text-5xl font-bold mb-8">About Me</h1>
       
+     
       <div className="prose prose-lg mb-16">
         <p className="text-lg text-neutral-700 leading-relaxed">
           I'm Edwrelyn Buhian, a Computer Engineering student with a solid background in customer service, 

@@ -3,6 +3,7 @@
 
 import { db } from '@/lib/firebase'
 import { collection, limit, onSnapshot, orderBy, query } from 'firebase/firestore'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
@@ -18,6 +19,8 @@ interface BlogPost {
 const Home = () => {
   const [recentPosts, setRecentPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const images = [1, 2, 3, 4, 5]
 
   useEffect(() => {
     const q = query(
@@ -43,28 +46,76 @@ const Home = () => {
     return () => unsubscribe()
   }, [])
 
+  // Auto-rotate carousel
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % images.length)
+    }, 3000) // Change every 3 seconds
+
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <div className="max-w-6xl mx-auto px-6 py-20">
-      <div className="min-h-[70vh] flex flex-col justify-center">
-        <h1 className="text-6xl md:text-8xl font-bold mb-6 tracking-tight">
-          Edwrelyn Buhian
-        </h1>
-        <p className="text-xl md:text-2xl text-neutral-600 max-w-2xl mb-8">
-          Computer Engineering student. Service Consultant. Event Host. Leader.
-        </p>
-        <div className="flex gap-4 text-sm">
-          <a 
-            href="/about" 
-            className="px-6 py-3 bg-black text-white hover:bg-neutral-800 transition-colors"
-          >
-            View Portfolio
-          </a>
-          <a 
-            href="/contact" 
-            className="px-6 py-3 border border-black hover:bg-black hover:text-white transition-colors"
-          >
-            Get in Touch
-          </a>
+      <div className="min-h-[70vh] flex flex-col-reverse md:flex-row items-center justify-between gap-12">
+        <div className="flex-1">
+          <h1 className="text-6xl md:text-8xl font-bold mb-6 tracking-tight">
+            Edwrelyn Buhian
+          </h1>
+          <p className="text-xl md:text-2xl text-neutral-600 max-w-2xl mb-8">
+            Computer Engineering student. Service Consultant. Event Host. Leader.
+          </p>
+          <div className="flex gap-4 text-sm">
+            <a 
+              href="/about" 
+              className="px-6 py-3 bg-black text-white hover:bg-neutral-800 transition-colors"
+            >
+              View Portfolio
+            </a>
+            <a 
+              href="/contact" 
+              className="px-6 py-3 border border-black hover:bg-black hover:text-white transition-colors"
+            >
+              Get in Touch
+            </a>
+          </div>
+        </div>
+        
+        <div className="shrink-0">
+          <div className="relative w-64 h-64 md:w-80 md:h-80 overflow-hidden border-2 border-black">
+            {images.map((num, index) => (
+              <div
+                key={num}
+                className={`absolute inset-0 transition-opacity duration-1000 ${
+                  index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                }`}
+              >
+                <Image
+                  src={`/images/${num}.jpeg`}
+                  alt={`Edwrelyn Buhian ${num}`}
+                  fill
+                  className="object-cover"
+                  priority={index === 0}
+                />
+              </div>
+            ))}
+          </div>
+          
+          {/* Carousel Indicators */}
+          <div className="flex justify-center gap-2 mt-4">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentImageIndex(index)}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  index === currentImageIndex 
+                    ? 'bg-black w-8' 
+                    : 'bg-neutral-300 hover:bg-neutral-400'
+                }`}
+                aria-label={`Go to image ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
       
